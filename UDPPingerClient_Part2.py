@@ -3,8 +3,7 @@ import time
 from datetime import timedelta, datetime
 import pytz
 
-
-srvrName = '192.168.0.108'
+srvrName = '192.168.49.117'
 
 srvrPort = 12000
 
