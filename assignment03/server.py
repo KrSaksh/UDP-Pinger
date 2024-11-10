@@ -6,7 +6,7 @@ serverSocket = socket(AF_INET, SOCK_DGRAM)
 serverSocket.bind(('', 12000))
 
 expected_seq_num = 0
-drop_probability = 0.1  # Adjust to simulate packet loss
+drop_probability = 0.25  # Adjust to simulate packet loss
 
 while True:
     message, clientAddress = serverSocket.recvfrom(1024)
@@ -27,3 +27,4 @@ while True:
     # Send an ACK for the last correctly received packet
     ack_message = f"ACK:{expected_seq_num - 1}"
     serverSocket.sendto(ack_message.encode(), clientAddress)
+
