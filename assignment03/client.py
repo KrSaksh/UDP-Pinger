@@ -6,20 +6,21 @@ srvrName = '192.168.49.117'
 srvrPort = 12000
 clientSocket = socket(AF_INET, SOCK_DGRAM)
 clientSocket.settimeout(1)
+T1, T2 = 0.1, 0.5
 
 # GBN parameters
 window_size = 7
 base = 0
 next_seq_num = 1
 num_packets = 50
-drop_probability = 0.25  # Adjust to simulate packet loss
+drop_probability = 0.25 
 
-# RTT tracking
+
 rtts = []
 loss = 0
 
 while base < num_packets:
-    # Send packets within the window
+
     while next_seq_num < base + window_size and next_seq_num < num_packets:
         message = f"SeqNo: {next_seq_num} Time: {time.time()}"
         if random.random() > drop_probability:  # Simulate drop probability
@@ -30,7 +31,7 @@ while base < num_packets:
         next_seq_num += 1
         
     start = time.time() * 1000
-    # Wait for ACKs
+
     try:
         resp, srvrAddr = clientSocket.recvfrom(1024)
         end = time.time() * 1000
@@ -47,7 +48,8 @@ while base < num_packets:
     except timeout:
         print("Timeout - retransmitting window")
         next_seq_num = base
-        
+    time.sleep(random.uniform(T1, T2))
+
 # if rtts:
 #     print(f"\n--- {srvrName} ping statistics ---")
 #     print(f"{num_packets} packets transmitted, {num_packets - loss} received, {(loss*100)/num_packets}% packet loss")
